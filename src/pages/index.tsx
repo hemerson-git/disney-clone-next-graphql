@@ -4,12 +4,14 @@ import { Inter } from 'next/font/google';
 import { Section } from '@/components/Section';
 
 import { clientAPI } from '@/graphql/client';
-import { VideosQuery } from '@/graphql/videos-request';
+import { VideosQuery } from '@/graphql/queries';
+
 import { Card } from '@/components/Card';
+import { GetStaticProps } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const data = await clientAPI.request(VideosQuery);
 
   const { videos } = data;

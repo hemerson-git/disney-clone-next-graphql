@@ -16,6 +16,10 @@ module.exports = {
       colors: {
         'bg-dark': '#13151F',
       },
+
+      dropShadow: {
+        card: '5px 5px 10px #000',
+      },
     },
   },
   plugins: [],

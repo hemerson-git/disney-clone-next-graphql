@@ -7,7 +7,7 @@ type Props = {
 
 export function Card({ thumbnail, alt }: Props) {
   return (
-    <div>
+    <div className="rounded-[5%] h-auto overflow-hidden drop-shadow-card">
       <Image
         src={thumbnail}
         alt={alt}
