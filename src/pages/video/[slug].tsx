@@ -1,35 +1,20 @@
 import { NextPageContext } from 'next';
 import { clientAPI } from '@/graphql/client';
-import { GraphQLClient, gql } from 'graphql-request';
+import { VideoQuery } from '@/graphql/queries';
+import { Video } from '@/graphql/generated/graphql';
+
+type DataProps = {
+  video: Video;
+};
 
 export const getServerSideProps = async (pageContext: NextPageContext) => {
   const pageSlug = pageContext.query.slug;
-
-  const query = gql`
-    query ($pageSlug: String!) {
-      video(where: { slug: $pageSlug }) {
-        createdAt
-        id
-        title
-        description
-        seen
-        slug
-        tags
-        thumbnail {
-          url
-        }
-        mp4 {
-          url
-        }
-      }
-    }
-  `;
 
   const variables = {
     pageSlug,
   };
 
-  const data = await clientAPI.request(query, variables);
+  const data = (await clientAPI.request(VideoQuery, variables)) as DataProps;
   const { video } = data;
 
   return {
@@ -39,7 +24,7 @@ export const getServerSideProps = async (pageContext: NextPageContext) => {
   };
 };
 
-function Video({ video }) {
+function Video({ video }: DataProps) {
   return (
     <div>
       <h1>{video?.title}</h1>
