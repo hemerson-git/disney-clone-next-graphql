@@ -7,13 +7,14 @@ type Props = {
 
 export function Card({ thumbnail, alt }: Props) {
   return (
-    <div className="rounded-[5%] h-auto overflow-hidden drop-shadow-card">
+    <div className="rounded-[5%] overflow-hidden drop-shadow-card">
       <Image
         src={thumbnail}
         alt={alt}
         width={320}
         height={240}
-        className="object-cover"
+        className="object-cover h-full"
+        draggable={false}
       />
     </div>
   );

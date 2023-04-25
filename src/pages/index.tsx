@@ -6,7 +6,6 @@ import { Section } from '@/components/Section';
 import { clientAPI } from '@/graphql/client';
 import { VideosQuery } from '@/graphql/queries';
 
-import { Card } from '@/components/Card';
 import { GetStaticProps } from 'next';
 import { Video } from '@/graphql/generated/graphql';
 import { useEffect, useState } from 'react';
@@ -39,6 +38,16 @@ export default function Home({ videos }: VideosProps) {
     return videos[randomNumber];
   }
 
+  function filterVideoByCategory(videos: Video[], genre: string) {
+    return videos.filter((video) =>
+      video.tags.map((tag) => tag.toLowerCase()).includes(genre)
+    );
+  }
+
+  function getUnseenVideos(videos: Video[]) {
+    return videos.filter((video) => !video.seen);
+  }
+
   useEffect(() => {
     const video = randomVideo(videos);
     setMainVideo(video);
@@ -46,7 +55,7 @@ export default function Home({ videos }: VideosProps) {
 
   return (
     <main className="flex flex-col items-center justify-between p-12">
-      <div className="w-full h-[30vh] overflow-hidden mb-12">
+      <div className="w-full h-[30vh] overflow-hidden mb-12 relative">
         {mainVideo?.thumbnail && (
           <Image
             src={mainVideo?.thumbnail?.url}
@@ -54,18 +63,46 @@ export default function Home({ videos }: VideosProps) {
             height={400}
             className="object-cover object-center h-full w-full"
             alt={mainVideo.title}
+            draggable={false}
           />
         )}
       </div>
 
       <div className="">
-        <Section genre="Family" />
-        <Section genre="Adventure" />
-        <Section genre="Action" />
-        <Section genre="Fantasy" />
+        <Section genre="Recommend for you" videos={getUnseenVideos(videos)} />
+
+        <Section
+          genre="Family"
+          videos={filterVideoByCategory(videos, 'family')}
+        />
+
+        <Section
+          genre="Adventure"
+          videos={filterVideoByCategory(videos, 'adventure')}
+        />
+
+        <Section
+          genre="Action"
+          videos={filterVideoByCategory(videos, 'action')}
+        />
+
+        <Section
+          genre="Fantasy"
+          videos={filterVideoByCategory(videos, 'fantasy')}
+        />
+
+        <Section
+          genre="Drama"
+          videos={filterVideoByCategory(videos, 'drama')}
+        />
+
+        <Section
+          genre="Classic"
+          videos={filterVideoByCategory(videos, 'classic')}
+        />
       </div>
 
-      <div>
+      {/* <div>
         {videos.map((video) => {
           if (video?.thumbnail) {
             return (
@@ -77,7 +114,7 @@ export default function Home({ videos }: VideosProps) {
             );
           }
         })}
-      </div>
+      </div> */}
     </main>
   );
 }
