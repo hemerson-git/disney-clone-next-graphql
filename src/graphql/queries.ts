@@ -39,3 +39,32 @@ export const VideoQuery = gql`
     }
   }
 `;
+
+export const VideoSeenMutation = gql`
+  mutation ($slug: String!) {
+    updateVideo(where: { slug: $slug }, data: { seen: true }) {
+      id
+      seen
+      title
+    }
+  }
+`;
+
+export const VideoPublish = gql`
+  mutation publishVideo($slug: String) {
+    publishVideo(where: { slug: $slug }, to: PUBLISHED) {
+      slug
+    }
+  }
+`;
+
+export const AccountQuery = gql`
+  query {
+    account(where: { id: "clgudsadp4tsd0am32k4mj0w9" }) {
+      avatar {
+        url
+      }
+      username
+    }
+  }
+`;

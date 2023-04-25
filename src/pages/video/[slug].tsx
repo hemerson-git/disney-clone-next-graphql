@@ -27,12 +27,25 @@ export const getServerSideProps = async (pageContext: NextPageContext) => {
   };
 };
 
+async function changeToSeen(slug: string) {
+  await fetch('/api/changeVideoToSeen', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+    body: JSON.stringify({ slug }),
+  });
+}
+
 function Video({ video }: DataProps) {
   const [isWatching, setIsWatching] = useState(false);
   const [isVideoHidden, setIsVideoHidden] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   async function handleClick() {
+    changeToSeen(video.slug);
+
     if (!isWatching) {
       setIsWatching(true);
     }
