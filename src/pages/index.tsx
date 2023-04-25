@@ -10,7 +10,7 @@ import { GetStaticProps } from 'next';
 import { Video } from '@/graphql/generated/graphql';
 import { useEffect, useState } from 'react';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 type VideosProps = {
   videos: Video[];
